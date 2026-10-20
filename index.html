@@ -9,7 +9,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
   body { width: 100vw; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #b8e2f4 0%, #dcf2f9 55%, #fef6fb 100%); font-family: 'Quicksand', sans-serif; position: relative; }
   .top-left { position: absolute; top: 20px; left: 25px; color: #4a6b82; font-weight: 700; z-index: 5; text-shadow: 0 2px 4px rgba(255,255,255,0.8); }
-  .intro { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); text-align: center; z-index: 10; transition: 0.6s; width: 90%; }
+  .intro { position: absolute; top: 22%; left: 50%; transform: translateX(-50%); text-align: center; z-index: 10; transition: 0.6s; width: 90%; }
   .intro h1 { font-size: 2.4rem; color: #2c4a63; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(255,255,255,0.9); }
   .intro p { font-size: 1.05rem; color: #557996; font-weight: 600; }
   
@@ -17,8 +17,24 @@
   .main-flower:hover { filter: drop-shadow(0 0 20px rgba(255,105,180,0.9)); }
   @keyframes sway { 0% { transform: translateX(-50%) rotate(-2.5deg); } 100% { transform: translateX(-50%) rotate(2.5deg); } }
   
-  .garden { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; }
-  .g-flower { position: absolute; bottom: -550px; transition: bottom 1.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); filter: drop-shadow(0 4px 12px rgba(255,105,180,0.3)); }
+  .garden { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; overflow: hidden; }
+  
+  /* HIỆU ỨNG HOA TRỒI LÊN VÀ BUNG NỞ RỘNG */
+  .g-flower { 
+    position: absolute; 
+    bottom: -120vh; 
+    transform: scale(0.1) rotate(-15deg);
+    opacity: 0;
+    transition: bottom 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                transform 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                opacity 1s ease; 
+    filter: drop-shadow(0 4px 12px rgba(255,105,180,0.3)); 
+  }
+  
+  .g-flower.bloom {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
   
   .caption { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #2c4a63; font-weight: 700; font-size: 1.1rem; z-index: 15; opacity: 0; transition: 0.8s; white-space: nowrap; text-shadow: 0 2px 6px rgba(255,255,255,0.9); }
   
@@ -29,7 +45,7 @@
   .card h2 { font-family: 'Dancing Script', cursive; font-size: 2.3rem; color: #2c3e50; margin: 10px 0 15px; line-height: 1.2; }
   .card p { font-size: 0.96rem; color: #4a5568; line-height: 1.65; margin-bottom: 12px; }
   .sign { font-weight: 700; color: #e84a7f; font-size: 1.05rem; margin: 16px 0; }
-  .btn-link { background: none; border: none; color: #64748b; font-weight: 700; cursor: pointer; text-decoration: underline; font-family: inherit; font-size: 0.95s; }
+  .btn-link { background: none; border: none; color: #64748b; font-weight: 700; cursor: pointer; text-decoration: underline; font-family: inherit; }
   .btn-link:hover { color: #e84a7f; }
   
   .controls { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 25; opacity: 0; pointer-events: none; transition: 0.5s; }
@@ -54,7 +70,7 @@
       <div id="icon" style="width:55px;height:55px;margin:0 auto 10px;"></div>
       <div style="color:#7a8b99;font-size:0.92rem;font-weight:600;">Gửi em thương mến,</div>
       <h2>Mong những<br>điều đẹp đẽ<br>luôn nở bên em.</h2>
-      <p>Một bông hoa có thể làm một ngày thêm đẹp.<br>Còn bạn, làm thế giới này dịu dàng hơn.</p>
+      <p>Một bông hoa có thể làm một ngày thêm đẹp.<br>Còn em, làm thế giới này dịu dàng hơn.</p>
       <p>Nhân ngày 20/10, chúc em luôn được yêu thương, trân trọng và có thật nhiều niềm vui. Mong em đủ bình yên để tận hưởng những điều nhỏ bé, đủ tự tin để theo đuổi những điều mình yêu.</p>
       <p>Hôm nay và cả những ngày sau, hãy cứ rạng rỡ theo cách của riêng mình nhé.</p>
       <div class="sign">Gửi em thật nhiều thương mến ♡</div>
@@ -69,34 +85,33 @@
 
 <script>
 const palettes = [
-  ['#ffb3c1','#ff758f','#ff4d6d','#e63946','#d90429','#9b2226'], // Hồng đỏ rực rỡ
-  ['#ffd7ba','#fec89a','#f8ad9d','#f4978e','#e56b6f','#b7094c'], // Cam đào ấm áp
-  ['#fff3b0','#ffdd57','#ffb703','#fb8500','#e76f51','#d4a373'], // Vàng rực rỡ
-  ['#f3d5f5','#e5b3fe','#d589fa','#c058f5','#9d4edd','#5a189a'], // Tím mộng mơ
-  ['#caf0f8','#90e0ef','#00b4d8','#0077b6','#03045e','#023e8a']  // Xanh ngọc biếc
+  ['#ffb3c1','#ff758f','#ff4d6d','#e63946','#d90429','#9b2226'],
+  ['#ffd7ba','#fec89a','#f8ad9d','#f4978e','#e56b6f','#b7094c'],
+  ['#fff3b0','#ffdd57','#ffb703','#fb8500','#e76f51','#d4a373'],
+  ['#f3d5f5','#e5b3fe','#d589fa','#c058f5','#9d4edd','#5a189a'],
+  ['#caf0f8','#90e0ef','#00b4d8','#0077b6','#03045e','#023e8a']
 ];
 
 function drawRose(c, w, h, stem) {
   let p = '';
-  // Vẽ nhiều lớp cánh hoa dày dặn và sắc nét hơn
+  // Cánh hoa mở rộng và tỏa tròn đều đặn
   for (let l = 7; l >= 1; l--) {
-    let r = (l / 7) * 48, cnt = l * 2 + 4, fill = c[7 - l] || c[c.length - 1];
+    let r = (l / 7) * 52, cnt = l * 2 + 4, fill = c[7 - l] || c[c.length - 1];
     for (let i = 0; i < cnt; i++) {
-      let a = (i * 360 / cnt) + (l * 20), rad = a * Math.PI / 180;
-      let px = 60 + Math.cos(rad) * (r * 0.38), py = 60 + Math.sin(rad) * (r * 0.38);
-      p += `<ellipse cx="${px}" cy="${py}" rx="${r*0.62}" ry="${r*0.44}" fill="${fill}" transform="rotate(${a+45},${px},${py})" stroke="rgba(255,255,255,0.6)" stroke-width="0.8"/>`;
+      let a = (i * 360 / cnt) + (l * 18), rad = a * Math.PI / 180;
+      let px = 60 + Math.cos(rad) * (r * 0.42), py = 60 + Math.sin(rad) * (r * 0.42);
+      p += `<ellipse cx="${px}" cy="${py}" rx="${r*0.68}" ry="${r*0.48}" fill="${fill}" transform="rotate(${a+45},${px},${py})" stroke="rgba(255,255,255,0.65)" stroke-width="0.9"/>`;
     }
   }
-  // Nhụy hoa rực rỡ ở trung tâm
-  p += `<circle cx="60" cy="60" r="7" fill="${c[c.length-1]}"/>`;
-  p += `<circle cx="60" cy="60" r="3" fill="#fff" opacity="0.8"/>`;
+  p += `<circle cx="60" cy="60" r="8" fill="${c[c.length-1]}"/>`;
+  p += `<circle cx="60" cy="60" r="3.5" fill="#fff" opacity="0.85"/>`;
 
   if (!stem) return `<svg viewBox="10 10 100 100" width="${w}" height="${h}" style="filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15))">${p}</svg>`;
   
   return `<svg viewBox="0 0 120 360" width="${w}" height="${h}" style="overflow:visible">
     <path d="M60 95 Q52 220 60 360" stroke="#386641" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <path d="M57 190 Q15 170 10 195 Q25 215 57 200 Z" fill="#4f772d"/>
-    <path d="M58 250 Q105 230 110 255 Q95 275 58 260 Z" fill="#588157"/>
+    <path d="M57 190 Q12 165 5 192 Q22 215 57 198 Z" fill="#4f772d"/>
+    <path d="M58 250 Q108 225 115 252 Q98 275 58 258 Z" fill="#588157"/>
     ${p}
   </svg>`;
 }
@@ -105,16 +120,16 @@ document.getElementById('mainF').innerHTML = drawRose(palettes[0], 180, 420, tru
 document.getElementById('icon').innerHTML = drawRose(palettes[0], 55, 55, false);
 
 const garden = document.getElementById('garden'), flowers = [];
-const totalFlowers = 55; // Tăng số lượng hoa cho rợp trời
+const totalFlowers = 55;
 
 for (let i = 0; i < totalFlowers; i++) {
   let d = document.createElement('div');
   d.className = 'g-flower';
-  let c = palettes[i % palettes.length], s = 0.5 + Math.random() * 0.8;
+  let c = palettes[i % palettes.length], s = 0.55 + Math.random() * 0.75;
   d.style.left = `${(i / totalFlowers) * 102 - 1}vw`;
   d.style.zIndex = Math.round(s * 10);
-  d.dataset.btm = `${Math.random() * 180 - 50}px`;
-  d.innerHTML = drawRose(c, 135 * s, 350 * s, true);
+  d.dataset.btm = `${Math.random() * 150 - 40}px`;
+  d.innerHTML = drawRose(c, 145 * s, 360 * s, true);
   garden.appendChild(d);
   flowers.push(d);
 }
@@ -123,21 +138,41 @@ let bloomed = false, timer;
 function bloom() {
   if (bloomed) return;
   bloomed = true;
+  document.getElementById('mainF').style.transform = 'translateX(-50%) scale(1.15)';
+  setTimeout(() => document.getElementById('mainF').style.opacity = '0', 300);
   document.getElementById('intro').classList.add('hide');
   document.getElementById('cap').style.opacity = '1';
+  
+  // Kích hoạt hiệu ứng hoa mọc lên và bung nở rộng rực rỡ
   flowers.forEach((f, idx) => {
-    setTimeout(() => f.style.bottom = f.dataset.btm, Math.random() * 900);
+    setTimeout(() => {
+      f.style.bottom = f.dataset.btm;
+      f.classList.add('bloom');
+    }, Math.random() * 900);
   });
+
   timer = setTimeout(() => { openM(); document.getElementById('cap').style.opacity = '0'; }, 2600);
 }
+
 function viewG() { document.getElementById('modal').classList.remove('show'); document.getElementById('ctrl').classList.add('show'); }
 function openM() { document.getElementById('ctrl').classList.remove('show'); document.getElementById('modal').classList.add('show'); }
 function replay() {
   clearTimeout(timer);
+  document.getElementById('mainF').style.opacity = '1';
+  document.getElementById('mainF').style.transform = 'translateX(-50%) scale(1)';
   document.getElementById('ctrl').classList.remove('show');
   document.getElementById('modal').classList.remove('show');
-  flowers.forEach(f => f.style.bottom = '-550px');
-  setTimeout(() => { bloomed = false; bloom(); }, 1200);
+  
+  // Thu toàn bộ hoa lặn xuống và khép lại
+  flowers.forEach(f => {
+    f.style.bottom = '-120vh';
+    f.classList.remove('bloom');
+  });
+  
+  setTimeout(() => { 
+    bloomed = false; 
+    document.getElementById('intro').classList.remove('hide');
+  }, 1200);
 }
 </script>
 </body>
