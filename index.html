@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Món quà 20/10</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(180deg, #b8e2f4 0%, #dcf2f9 55%, #fef6fb 100%);
+            font-family: 'Quicksand', sans-serif;
+            position: relative;
+        }
+
+        /* Chữ góc trái trên cùng */
+        .top-left-text {
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            color: #4a6b82;
+            font-size: 1rem;
+            font-weight: 600;
+            z-index: 5;
+            opacity: 0.8;
+        }
+
+        /* Hiệu ứng đom đóm / hạt sáng lơ lửng */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.9; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Lời dẫn màn hình 1 */
+        .intro-text {
+            position: absolute;
+            top: 22%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+            transition: all 0.8s ease;
+            width: 90%;
+        }
+
+        .intro-text h1 {
+            font-size: 2.4rem;
+            color: #2c4a63;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .intro-text p {
+            font-size: 1.05rem;
+            color: #557996;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        /* Bông hoa chính ở giữa */
+        .main-flower-wrapper {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            cursor: pointer;
+            transition: filter 0.3s ease;
+            transform-origin: bottom center;
+            animation: swayMain 4s ease-in-out infinite;
+        }
+
+        .main-flower-wrapper:hover {
+            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.7));
+        }
+
+        @keyframes swayMain {
+            0%, 100% { transform: translateX(-50%) rotate(-1.5deg); }
+            50% { transform: translateX(-50%) rotate(1.5deg); }
+        }
+
+        /* Khu vườn hoa */
+        .garden {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .garden-flower {
+            position: absolute;
+            bottom: -550px;
+            transform-origin: bottom center;
+            transition: bottom 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .garden-flower.bloom {
+            bottom: -30px;
+        }
+
+        .sway-anim {
+            animation: swayGarden 3.5s ease-in-out infinite alternate;
+            transform-origin: bottom center;
+        }
+
+        @keyframes swayGarden {
+            0% { transform:
